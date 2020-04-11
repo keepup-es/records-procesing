@@ -22,7 +22,7 @@ def connect():
 
 def save(sheet, last_sprint_failed_challenges_count, lab):
 
-    sheet.update_cell(7, 2, last_sprint_failed_challenges_count)
+    sheet.update_cell(7, 2, )
 
 
 

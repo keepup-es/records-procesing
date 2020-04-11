@@ -20,9 +20,45 @@ def connect():
     sheet = file.open_by_key(file_to_read).sheet1
     return sheet
 
-def save(sheet, last_sprint_failed_challenges_count, lab):
+def update_row(sheet, row, value, valid):
+    sheet.update_cell(row, 10 , value)
+    sheet.update_cell(row, 1, valid)
 
-    sheet.update_cell(7, 2, )
 
-sheet = connect()
-print(sheet.cell(1, 1).value)
+def read_row(sheet, row):
+    return sheet.row_values(row)
+
+
+def apply_bussines_model(row):
+    cash_prediction = 0
+    try:
+        for element in row:
+            cash_prediction += int(element)
+        return cash_prediction
+    except:
+        cash_prediction = 0
+        return cash_prediction
+
+def is_valid(cash_prediction):
+    if cash_prediction <= 0:
+        return False
+    else:
+        return True
+
+def main():
+    sheet = connect()
+    all_rows = sheet.get_all_values()
+    all_rows.pop(0) # Remove column names
+    for index, row in enumerate(all_rows):
+        if row[0] != 'yes':
+            row.pop(0)
+            row.pop(-1)
+            cash_prediction = apply_bussines_model(row)
+            if is_valid(cash_prediction):
+                processed = 'yes'
+            else:
+                processed = 'error'
+            update_row(sheet, index + 2, cash_prediction, processed)
+
+if __name__ == '__main__':
+    main()

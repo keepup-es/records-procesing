@@ -17,13 +17,13 @@ def connect():
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/spreadsheets', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
     credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'].encode(), scope) # get email and key from creds
     file = gspread.authorize(credentials) # authenticate with Google
-    sheet = file.open(file_to_read).sheet1 # open sheet
+    sheet = file.open_by_key("1sgFiSvm4bGF4rC1ElNipyLEVIVML9hUQFPnzlkMjQV0").sheet1
+    #sheet = file.open(file_to_read).sheet1 # open sheet
     return sheet
 
 def save(sheet, last_sprint_failed_challenges_count, lab):
 
     sheet.update_cell(7, 2, )
 
-
-
-
+sheet = connect()
+print(sheet.cell(1, 1).value)
